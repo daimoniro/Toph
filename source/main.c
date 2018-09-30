@@ -65,7 +65,7 @@ int main(int argc, char **argv)
 
 
 	printf("---------------------------------\n");
-	printf("---------  TestMyPI  ver: %s ------\n",VERSION);
+	printf("---------  Toph  ver: %s ------\n",VERSION);
 	printf("---------------------------------\n\n");
 
 	if (gpioInitialise() < 0)
@@ -86,17 +86,17 @@ int main(int argc, char **argv)
 
 	StartGestioneIO();
 	StartGestioneMotoriDC();
-	StartGestioneMotoreStepper();
+	//StartGestioneMotoreStepper();
 
 	StartUDPServerManagement();
 	StartUDPClientManagement();
 
 
-	StartTemperatureHumManagement();
-	StartDistanceSonarManagement();
-	StartGestioneGyroAccelerometer();
+	//StartTemperatureHumManagement();
+	//StartDistanceSonarManagement();
+	//StartGestioneGyroAccelerometer();
 	StartGestioneCompass();
-	StartGestioneServo();
+	//StartGestioneServo();
 
 
 	while(1)

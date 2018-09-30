@@ -59,10 +59,14 @@ void *gestioneDistance()
 	gpioSetMode(TRIG_1, PI_OUTPUT);
 	gpioSetMode(ECHO_1, PI_INPUT);
 
+	gpioSetMode(TRIG_2, PI_OUTPUT);
+	gpioSetMode(ECHO_2, PI_INPUT);
+
 
 
 	gpioWrite(TRIG_0, 0);
 	gpioWrite(TRIG_1, 0);
+	gpioWrite(TRIG_2, 0);
 
     sleep(2);
 
@@ -72,8 +76,11 @@ void *gestioneDistance()
     {
     	getDistance(0);
     	usleep(100000);
-    	getDistance(1);
 
+    	//getDistance(1);
+        //usleep(100000);
+
+        getDistance(2);
         usleep(100000);
     }
 
@@ -104,6 +111,11 @@ void getDistance(unsigned char idSonarSendor)
    		   localTrig = TRIG_1 ;
    		   	localEcho = ECHO_1 ;
    	   		break;
+
+   	 case 2:
+   	   		   localTrig = TRIG_2 ;
+   	   		   	localEcho = ECHO_2 ;
+   	   	   		break;
 
    	   default:
    		  // printf("Errore idSensor sbagliato!!!\n");
@@ -151,6 +163,9 @@ void getDistance(unsigned char idSonarSendor)
 		case 1:
 			distanceSonar_1 = distance;
    	   		break;
+		case 2:
+					distanceSonar_2 = distance;
+		   	   		break;
    }
 
 }

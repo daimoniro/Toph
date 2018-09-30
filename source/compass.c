@@ -118,7 +118,7 @@ void *gestioneCompass()
 
 	while(1)
 	{
-		usleep(10000);
+		usleep(100000);
 
 		unsigned char statusRegister  = i2cReadByteData(i2cHandleHMC5883l,6);
 

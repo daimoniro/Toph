@@ -87,7 +87,7 @@ void *UDPServerManagement(void *threadid)
 	while(1)
 	{
 
-		usleep(25000);
+		usleep(100000);
 		sendMainValueUDP();
 
 		//printf("send: %d\n",returnSend);

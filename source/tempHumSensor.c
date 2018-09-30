@@ -81,7 +81,7 @@ void *TemperatureHumManagement()
 	system("sudo modprobe w1-therm");
 
 
-	sprintf(pathDeviceTemperatureSensor,"/sys/bus/w1/devices/10-000800bc1a13/w1_slave");
+	sprintf(pathDeviceTemperatureSensor,"/sys/bus/w1/devices/28-00000620f601/w1_slave");
 	//sprintf(pathDeviceTemperatureSensor,"/sys/bus/w1/devices/%s/w1_slave",cfg.idTemperatureSensor);
 
 	valoriTemperatura[0] = 0xFFFF;
@@ -129,7 +129,7 @@ void *TemperatureHumManagement()
 			}
 
 
-			read_dht_data();
+			//read_dht_data();
 
 
 		}
