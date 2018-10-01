@@ -54,16 +54,6 @@ int main(int argc, char **argv)
 
 	printf("\033[H\033[2J");
 
-	//signal(SIGINT, sig_handler);
-	//gpioSetSignalFunc(SIGINT, sig_handler);
-	//signal(SIGTERM, sig_handler);
-//	signal(SIGKILL, sig_handler);
-	//signal(SIGSEGV, sig_handler);
-
-
-
-
-
 	printf("---------------------------------\n");
 	printf("---------  Toph  ver: %s ------\n",VERSION);
 	printf("---------------------------------\n\n");
@@ -78,24 +68,19 @@ int main(int argc, char **argv)
 		 TRACE4(1,"MAIN",BIANCO,NERO_BG,"Setup pigpio OK ",0);
 	}
 
-	//printf("Pigpio version: %d\n",gpioVersion());
-
-
-	//signal(SIGINT, sig_handler);
 	gpioSetSignalFunc(SIGINT, sig_handler);
 
-	StartGestioneIO();
-	StartGestioneMotoriDC();
-	//StartGestioneMotoreStepper();
 
 	StartUDPServerManagement();
 	StartUDPClientManagement();
 
+	StartGestioneIO();
 
-	//StartTemperatureHumManagement();
-	//StartDistanceSonarManagement();
+	StartTemperatureHumManagement();
+	StartDistanceSonarManagement();
+	//StartGestioneMotoriDC();
 	//StartGestioneGyroAccelerometer();
-	StartGestioneCompass();
+	//StartGestioneCompass();
 	//StartGestioneServo();
 
 
@@ -124,17 +109,21 @@ void closePigpioLybrary()
 {
 	gpioWrite(PIN_LED_VERDE, 0);   //led off
 	gpioWrite(PIN_LED_ROSSO, 0);   //led off
+
 	gpioPWM(PIN_MOTOR_0_PWM,0);
 	gpioPWM(PIN_MOTOR_1_PWM,0);
 
-	if(i2cHandleMPU6050 > 0)
+
+	printf("FINE: i2cHandleMPU6050: %d i2cHandleHMC5883l: %d i2cHandle_pca6585: %d\n",i2cHandleMPU6050,i2cHandleHMC5883l,i2cHandle_pca6585);
+
+	/*if(i2cHandleMPU6050 > 0)
 	 i2cClose(i2cHandleMPU6050);
 
 	if(i2cHandleHMC5883l > 0)
 	 i2cClose(i2cHandleHMC5883l);
 
 	if(i2cHandle_pca6585 > 0)
-	 i2cClose(i2cHandle_pca6585);
+	 i2cClose(i2cHandle_pca6585);*/
 
 
 	sleep(1);

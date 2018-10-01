@@ -184,7 +184,7 @@ int letturaTemperatura(int idSensore)
 
 	while(fgets(Line,256,SensoreFile)!=NULL)
 	{
-		//printf("Leggo %s",Line);
+		printf("Leggo %s",Line);
 
 		//Leggo 15 00 4b 46 7f ff 0b 10 a4 : crc=a4 YES
 		//Leggo 15 00 4b 46 7f ff 0b 10 a4 t=1312
