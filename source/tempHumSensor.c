@@ -42,7 +42,7 @@ float humDHT22 = 0;
 //	extern Variable
 //*****************************************************************************
 extern char debugSTR[];
-
+extern int alreadyClose;
 
 //-----------------------------------------------------------------------------
 //	function declaration
@@ -101,6 +101,8 @@ void *TemperatureHumManagement()
 		usleep(100000);
 		time(&now);
 
+		if(alreadyClose == 1)
+			break;
 
 		if((now % FREQUENZA_LETTURA_TEMPERATURE) == 0)
 		{
@@ -140,6 +142,8 @@ void *TemperatureHumManagement()
 
 
 	}
+
+	return NULL;
 
 }
 

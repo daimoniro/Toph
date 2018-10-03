@@ -13,6 +13,14 @@ void StartGestioneServo();
 void setSpeedServo(unsigned short servoSpeed_0, unsigned short servoSpeed_1);
 void setFrequencyServo(unsigned short servoFrequency);
 
+void initI2C_Servo();
+
+void elaborateServoData(char * buf);
+
+
+
+
+
 #define PCA9685_SUBADR1 0x2
 #define PCA9685_SUBADR2 0x3
 #define PCA9685_SUBADR3 0x4
@@ -30,6 +38,9 @@ void setFrequencyServo(unsigned short servoFrequency);
 #define ALLLED_OFF_L 0xFC
 #define ALLLED_OFF_H 0xFD
 
+
+#define		START_REG_I2C_SERVO		LED0_OFF_L
+#define		COUNT_BYTE_I2C_SERVO	6
 
 
 #endif /* INCLUDE_GESTIONESERVO_H_ */

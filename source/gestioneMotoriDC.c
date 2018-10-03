@@ -21,8 +21,17 @@ void *gestioneMotoriDC();
 
 
 
+//-----------------------------------------------------------------------------
+//	Variabili globali
+//-----------------------------------------------------------------------------
 int velMotoreDC_0 = 0;
 int velMotoreDC_1 = 0;
+
+//-----------------------------------------------------------------------------
+//	variabili estern
+//-----------------------------------------------------------------------------
+extern int alreadyClose;
+
 
 //-----------------------------------------------------------------------------
 //	StartGestioneMotoriDC
@@ -46,13 +55,18 @@ void *gestioneMotoriDC()
 
 	while(1)
 	{
-		usleep(250000);
+		usleep(100000);
+
+		if(alreadyClose == 1)
+			break;
+
 		velMotoreDC_0 = gpioGetPWMdutycycle(PIN_MOTOR_0_PWM);
 
 		velMotoreDC_1 = gpioGetPWMdutycycle(PIN_MOTOR_1_PWM);
 	}
 
 
+	return NULL;
 }
 
 

@@ -10,6 +10,9 @@
 
 
 void StartGestioneGyroAccelerometer();
+void initI2C_GyroAccelerometer();
+void elaborateGyroData(char * buf);
+
 
 #define MPU6050_RA_PWR_MGMT_1       0x6B
 #define MPU6050_RA_CONFIG           0x1A
@@ -33,6 +36,10 @@ void StartGestioneGyroAccelerometer();
 #define MPU6050_RA_GYRO_YOUT_L      0x46
 #define MPU6050_RA_GYRO_ZOUT_H      0x47
 #define MPU6050_RA_GYRO_ZOUT_L      0x48
+
+
+#define		START_REG_I2C_GYRO		MPU6050_RA_ACCEL_XOUT_H
+#define		COUNT_BYTE_I2C_GYRO		14
 
 
 

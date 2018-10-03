@@ -67,11 +67,28 @@ void StartGestioneGyroAccelerometer()
 }
 
 //--------------------------------------------------
-// initI2C_MPU6050
+// initI2C_GyroAccelerometer
 //--------------------------------------------------
-void initI2C_MPU6050()
+void initI2C_GyroAccelerometer()
 {
 	i2cHandleMPU6050 = i2cOpen(1,MPU_6050_ADDR,0);
+
+
+	if(i2cHandleMPU6050 >= 0)
+	{
+		sprintf(debugSTR,"I2C Gyro i2cHandleMPU6050: %d",i2cHandleMPU6050);
+		TRACE4(1,"GYRO",VERDE,NERO_BG,debugSTR,0);
+
+		mpu6050_init();
+	}
+	else
+	{
+		sprintf(debugSTR,"Errore I2C Gyro i2cHandleMPU6050: %d",i2cHandleMPU6050);
+		TRACE4(1,"GYRO",ROSSO,NERO_BG,debugSTR,0);
+
+		return ;
+	}
+
 }
 
 
@@ -90,22 +107,9 @@ void *gestioneGyroAccelerometer()
 	int probeByte = 0;
 
 	usleep(100000L);
-	initI2C_MPU6050();
 
-	if(i2cHandleMPU6050 >= 0)
-	{
-		sprintf(debugSTR,"I2C Gyro i2cHandleMPU6050: %d",i2cHandleMPU6050);
-		TRACE4(1,"GYRO",VERDE,NERO_BG,debugSTR,0);
+	initI2C_GyroAccelerometer();
 
-		mpu6050_init();
-	}
-	else
-	{
-		sprintf(debugSTR,"Errore I2C Gyro i2cHandleMPU6050: %d",i2cHandleMPU6050);
-		TRACE4(1,"GYRO",ROSSO,NERO_BG,debugSTR,0);
-
-		return NULL;
-	}
 
 	while(1)
 	{
@@ -120,7 +124,7 @@ void *gestioneGyroAccelerometer()
 
 		if(probeByte < 0)
 		{
-			//printf("probeByte Gyro: %d\n",probeByte);
+			printf("probeByte Gyro: %d\n",probeByte);
 			errorGyro++;
 			continue;
 		}
@@ -130,13 +134,6 @@ void *gestioneGyroAccelerometer()
 		accel_yout = (short)((unsigned short)(mpu6050_readByte(MPU6050_RA_ACCEL_YOUT_H) << 8) + (unsigned short)mpu6050_readByte(MPU6050_RA_ACCEL_YOUT_L));
 		accel_zout = (short)((unsigned short)(mpu6050_readByte(MPU6050_RA_ACCEL_ZOUT_H) << 8) + (unsigned short)mpu6050_readByte(MPU6050_RA_ACCEL_ZOUT_L));
 
-		//accel_xout =i2cReadWordData_2c(i2cHandleMPU6050,MPU6050_RA_ACCEL_XOUT_H);
-		//accel_yout =i2cReadWordData_2c(i2cHandleMPU6050,MPU6050_RA_ACCEL_YOUT_H);
-		//accel_zout =i2cReadWordData_2c(i2cHandleMPU6050,MPU6050_RA_ACCEL_ZOUT_H);
-
-		/*gyro_xout = (((int16_t)mpu6050_readByte(MPU6050_RA_GYRO_XOUT_H)) << 8) | mpu6050_readByte(MPU6050_RA_GYRO_XOUT_L);
-		gyro_yout = (((int16_t)mpu6050_readByte(MPU6050_RA_GYRO_YOUT_H)) << 8) | mpu6050_readByte(MPU6050_RA_GYRO_YOUT_L);
-		gyro_zout = (((int16_t)mpu6050_readByte(MPU6050_RA_GYRO_ZOUT_H)) << 8) | mpu6050_readByte(MPU6050_RA_GYRO_ZOUT_L);*/
 
 		gyro_xout = (short)((unsigned short)(mpu6050_readByte(MPU6050_RA_GYRO_XOUT_H) << 8) + (unsigned short)mpu6050_readByte(MPU6050_RA_GYRO_XOUT_L));
 		gyro_yout = (short)((unsigned short)(mpu6050_readByte(MPU6050_RA_GYRO_YOUT_H) << 8) + (unsigned short)mpu6050_readByte(MPU6050_RA_GYRO_YOUT_L));
@@ -299,5 +296,67 @@ void mpu6050_init()
 	mpu6050_writeBit(MPU6050_RA_INT_PIN_CFG, MPU6050_INTCFG_I2C_BYPASS_EN_BIT, (1 << MPU6050_INTCFG_I2C_BYPASS_EN_BIT));
 	// disable master mode on the i2c aux bus
 	mpu6050_writeBit(MPU6050_RA_USER_CTRL, 5, 0);
+
+}
+
+
+//--------------------------------------------------
+// elaborateGyroData
+//--------------------------------------------------
+void elaborateGyroData(char * buf)
+{
+	int gyro_xout = 0;
+	int gyro_yout = 0;
+	int gyro_zout = 0;
+
+	int accel_xout = 0;
+	int accel_yout = 0;
+	int accel_zout = 0;
+
+	accel_xout = (short)((unsigned short)(buf[0] << 8) + (unsigned short)buf[1]);
+	accel_yout = (short)((unsigned short)(buf[2] << 8) + (unsigned short)buf[3]);
+	accel_zout = (short)((unsigned short)(buf[4] << 8) + (unsigned short)buf[5]);
+
+
+//	gyro_xout = (short)((unsigned short)(mpu6050_readByte(MPU6050_RA_GYRO_XOUT_H) << 8) + (unsigned short)mpu6050_readByte(MPU6050_RA_GYRO_XOUT_L));
+//	gyro_yout = (short)((unsigned short)(mpu6050_readByte(MPU6050_RA_GYRO_YOUT_H) << 8) + (unsigned short)mpu6050_readByte(MPU6050_RA_GYRO_YOUT_L));
+//	gyro_zout = (short)((unsigned short)(mpu6050_readByte(MPU6050_RA_GYRO_ZOUT_H) << 8) + (unsigned short)mpu6050_readByte(MPU6050_RA_GYRO_ZOUT_L));
+
+	gyro_xout = (short)((unsigned short)(buf[8] << 8) + (unsigned short)buf[9]);
+	gyro_yout = (short)((unsigned short)(buf[10] << 8) + (unsigned short)buf[11]);
+	gyro_zout = (short)((unsigned short)(buf[12] << 8) + (unsigned short)buf[13]);
+
+
+	gyro_xout_scaled = (float)gyro_xout / (float)MPU6050_GYRO_LSB_250;
+	gyro_yout_scaled = (float)gyro_yout / (float)MPU6050_GYRO_LSB_250;
+	gyro_zout_scaled = (float)gyro_zout / (float)MPU6050_GYRO_LSB_250;
+
+	accel_xout_scaled = (float)accel_xout / (float)MPU6050_ACCEL_LSB_2;
+	accel_yout_scaled = (float)accel_yout / (float)MPU6050_ACCEL_LSB_2;
+	accel_zout_scaled = (float)accel_zout / (float)MPU6050_ACCEL_LSB_2;
+
+	x_rotation = get_x_rotation(accel_xout_scaled,accel_yout_scaled,accel_zout_scaled);
+	y_rotation = get_y_rotation(accel_xout_scaled,accel_yout_scaled,accel_zout_scaled);
+
+
+	sprintf(debugSTR,"gyro_xout: %d scaled: %f",gyro_xout, gyro_xout_scaled);
+	TRACE4(2,"GYRO",BIANCO,NERO_BG,debugSTR,0);
+	sprintf(debugSTR,"gyro_yout: %d scaled: %f",gyro_yout, gyro_yout_scaled);
+	TRACE4(2,"GYRO",BIANCO,NERO_BG,debugSTR,0);
+	sprintf(debugSTR,"gyro_zout: %d scaled: %f",gyro_zout, gyro_zout_scaled);
+	TRACE4(2,"GYRO",BIANCO,NERO_BG,debugSTR,0);
+
+	sprintf(debugSTR,"accel_xout: %d scaled: %f",accel_xout, accel_xout_scaled);
+	TRACE4(2,"GYRO",BIANCO,NERO_BG,debugSTR,0);
+	sprintf(debugSTR,"accel_yout: %d scaled: %f",accel_yout, accel_yout_scaled);
+	TRACE4(2,"GYRO",BIANCO,NERO_BG,debugSTR,0);
+	sprintf(debugSTR,"accel_zout: %d scaled: %f",accel_zout, accel_zout_scaled);
+	TRACE4(2,"GYRO",BIANCO,NERO_BG,debugSTR,0);
+
+	sprintf(debugSTR,"x_rotation: %f",x_rotation);
+	TRACE4(2,"GYRO",BIANCO,NERO_BG,debugSTR,0);
+	sprintf(debugSTR,"y_rotation: %f",y_rotation);
+	TRACE4(2,"GYRO",BIANCO,NERO_BG,debugSTR,0);
+
 
 }

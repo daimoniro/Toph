@@ -10,6 +10,13 @@
 
 
 void StartGestioneCompass();
+void initI2C_Compass();
+void elaborateCompassData(char * buf);
+
+
+#define		START_REG_I2C_COMPASS	0
+#define		COUNT_BYTE_I2C_COMPASS	6
+
 
 //REG CONTROL
 

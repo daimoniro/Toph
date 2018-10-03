@@ -62,23 +62,12 @@ void StartGestioneServo()
 }
 
 //--------------------------------------------------
-// initI2C_PCA6585
+// initI2C_Servo
 //--------------------------------------------------
-void initI2C_PCA6585()
+void initI2C_Servo()
 {
 	i2cHandle_pca6585 = i2cOpen(1,PCA6585_ADDR,0);
-}
 
-
-//--------------------------------------------------
-// gestioneServo
-//--------------------------------------------------
-void *gestioneServo()
-{
-	int probeByte = 0;
-
-	usleep(100000L);
-	initI2C_PCA6585();
 
 	if(i2cHandle_pca6585 >= 0)
 	{
@@ -92,8 +81,24 @@ void *gestioneServo()
 		sprintf(debugSTR,"Errore I2C Servo i2cHandle_pca6585: %d",i2cHandle_pca6585);
 		TRACE4(1,"SERVO",ROSSO,NERO_BG,debugSTR,0);
 
-		return NULL;
+		return;
 	}
+}
+
+
+//--------------------------------------------------
+// gestioneServo
+//--------------------------------------------------
+void *gestioneServo()
+{
+	int probeByte = 0;
+
+	usleep(100000L);
+
+
+	initI2C_Servo();
+
+
 
 	while(1)
 	{
@@ -248,4 +253,14 @@ void setFrequencyServo(unsigned short servoFrequency)
 {
 	PCA9685_setPWMFreq((float)servoFrequency);
 	freqPWMServo = servoFrequency;
+}
+
+//--------------------------------------------------
+// elaborateServoData
+//--------------------------------------------------
+void elaborateServoData(char * buf)
+{
+	posServo0 = buf[0] + (buf[1]<<8);
+	posServo1 = buf[4] + (buf[5]<<8);
+
 }

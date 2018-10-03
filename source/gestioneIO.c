@@ -24,7 +24,7 @@ extern char debugSTR[];
 extern int errorServo;
 extern int errorGyro;
 extern int errorCompass;
-
+extern int alreadyClose;
 //--------------------------------------------------
 // Function declaration
 //--------------------------------------------------
@@ -67,6 +67,8 @@ void *gestioneIO()
 	{
 		usleep(100000);
 
+		if (alreadyClose == 1)
+			break;
 
 		sprintf(debugSTR,"Stato PIN %d --> %d", BUTTON_PIN,gpioRead(BUTTON_PIN));
 		TRACE4(1,"IO",BIANCO,NERO_BG,debugSTR,0);
@@ -109,6 +111,8 @@ void *gestioneIO()
 
 
 	}
+
+	return NULL;
 }
 
 

@@ -26,6 +26,7 @@ float distanceSonar_2 = 0;
 //	Extern Variable
 //*****************************************************************************
 extern char debugSTR[];
+extern int alreadyClose;
 
 //*****************************************************************************
 //	dichiarazione funzioni
@@ -71,14 +72,17 @@ void *gestioneDistance()
     sleep(2);
 
 
-
     while (1)
     {
+
+		if(alreadyClose == 1)
+			break;
+
     	getDistance(0);
     	usleep(100000);
 
-    	//getDistance(1);
-        //usleep(100000);
+    	getDistance(1);
+        usleep(100000);
 
         getDistance(2);
         usleep(100000);

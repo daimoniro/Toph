@@ -27,12 +27,13 @@
 #include "gyroAccelerometer.h"
 #include "compass.h"
 #include "gestioneServo.h"
+#include "i2cMaster.h"
 
 //--------------------------------------------------
 // variabili globali
 //--------------------------------------------------
 char debugSTR[256];
-
+int alreadyClose =0 ;
 //--------------------------------------------------
 // variabili extern
 //--------------------------------------------------
@@ -78,10 +79,13 @@ int main(int argc, char **argv)
 
 	StartTemperatureHumManagement();
 	StartDistanceSonarManagement();
-	//StartGestioneMotoriDC();
+	StartGestioneMotoriDC();
+
+
 	//StartGestioneGyroAccelerometer();
 	//StartGestioneCompass();
 	//StartGestioneServo();
+	 StartGestioneDeviceI2C();
 
 
 	while(1)
@@ -107,6 +111,15 @@ void sig_handler(int signo)
 //--------------------------------------------------
 void closePigpioLybrary()
 {
+
+	if(alreadyClose == 1)
+	{
+		 TRACE4(1,"MAIN",ROSSO,NERO_BG,"Gia' chiuso !!!",0);
+		return ;
+	}
+
+	alreadyClose = 1;
+
 	gpioWrite(PIN_LED_VERDE, 0);   //led off
 	gpioWrite(PIN_LED_ROSSO, 0);   //led off
 
@@ -114,16 +127,16 @@ void closePigpioLybrary()
 	gpioPWM(PIN_MOTOR_1_PWM,0);
 
 
-	printf("FINE: i2cHandleMPU6050: %d i2cHandleHMC5883l: %d i2cHandle_pca6585: %d\n",i2cHandleMPU6050,i2cHandleHMC5883l,i2cHandle_pca6585);
+	//printf("FINE: i2cHandleMPU6050: %d i2cHandleHMC5883l: %d i2cHandle_pca6585: %d\n",i2cHandleMPU6050,i2cHandleHMC5883l,i2cHandle_pca6585);
 
-	/*if(i2cHandleMPU6050 > 0)
+	if(i2cHandleMPU6050 > 0)
 	 i2cClose(i2cHandleMPU6050);
 
 	if(i2cHandleHMC5883l > 0)
 	 i2cClose(i2cHandleHMC5883l);
 
 	if(i2cHandle_pca6585 > 0)
-	 i2cClose(i2cHandle_pca6585);*/
+	 i2cClose(i2cHandle_pca6585);
 
 
 	sleep(1);
