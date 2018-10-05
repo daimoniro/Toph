@@ -23,7 +23,7 @@
 #include "gestioneMotoriDC.h"
 #include "gestioneMotoriStepper.h"
 #include "gestioneServo.h"
-
+#include "panTiltServo.h"
 #include "udpServer.h"
 
 #define BUFSIZE 64
@@ -78,6 +78,8 @@ void* UDPServer()
 	unsigned int delay = 0;
 	int steps  = 0;
 
+	short angle1 = 0;
+	short angle2 = 0;
 
 	portno = 12000;
 
@@ -211,6 +213,19 @@ void* UDPServer()
 
 
 				   break;
+
+
+				case SET_PANTILT_SERVO:
+
+					 angle1 = (short)(bufRx[3] +(bufRx[4] <<8));
+					 angle2 = (short)(bufRx[5] +(bufRx[6] <<8));
+
+					sprintf(debugSTR,"SET_PANTILT_SERVO --> angle1: %d angle1: %d",angle1,angle2);
+					TRACE4(1,"SERVER",VERDE,NERO_BG,debugSTR,0);
+
+					panTilt_setServo(0,angle1);
+					panTilt_setServo(0,angle2);
+					break;
 
 
 				default:
