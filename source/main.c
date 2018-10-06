@@ -28,6 +28,7 @@
 #include "compass.h"
 #include "gestioneServo.h"
 #include "i2cMaster.h"
+#include "panTiltServo.h"
 
 //--------------------------------------------------
 // variabili globali
@@ -40,7 +41,7 @@ int alreadyClose =0 ;
 extern int i2cHandleMPU6050;
 extern int i2cHandleHMC5883l;
 extern int i2cHandle_pca6585;
-
+extern int i2cHandle_pantilt;
 //--------------------------------------------------
 // Function declaration
 //--------------------------------------------------
@@ -127,6 +128,8 @@ void closePigpioLybrary()
 	gpioPWM(PIN_MOTOR_1_PWM,0);
 
 
+	panTilt_atExit();
+
 	//printf("FINE: i2cHandleMPU6050: %d i2cHandleHMC5883l: %d i2cHandle_pca6585: %d\n",i2cHandleMPU6050,i2cHandleHMC5883l,i2cHandle_pca6585);
 
 	if(i2cHandleMPU6050 > 0)
@@ -137,6 +140,9 @@ void closePigpioLybrary()
 
 	if(i2cHandle_pca6585 > 0)
 	 i2cClose(i2cHandle_pca6585);
+
+	if(i2cHandle_pantilt > 0)
+	 i2cClose(i2cHandle_pantilt);
 
 
 	sleep(1);

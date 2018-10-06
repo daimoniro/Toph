@@ -64,6 +64,9 @@ extern float compass_zout_scaled;
 extern unsigned short posServo0;
 extern unsigned short posServo1;
 extern float bearing;
+extern short posServoPantilt_1;
+extern short posServoPantilt_2;
+
 //-----------------------------------------------------------------------------
 //	StartUDPClientManagement
 //-----------------------------------------------------------------------------
@@ -134,10 +137,10 @@ int sendMainValueUDP()
 	memcpy(bufferTx + 67,&compass_zout_scaled,sizeof(float));
 
 
-	bufferTx[71] = (unsigned char)((posServo0 >> 8)&0x00FF);
-	bufferTx[72] = (unsigned char)((posServo0 >> 0)&0x00FF);
-	bufferTx[73] = (unsigned char)((posServo1 >> 8)&0x00FF);
-	bufferTx[74] = (unsigned char)((posServo1 >> 0)&0x00FF);
+	bufferTx[71] = (unsigned char)((posServoPantilt_1 >> 8)&0x00FF);
+	bufferTx[72] = (unsigned char)((posServoPantilt_1 >> 0)&0x00FF);
+	bufferTx[73] = (unsigned char)((posServoPantilt_2 >> 8)&0x00FF);
+	bufferTx[74] = (unsigned char)((posServoPantilt_2 >> 0)&0x00FF);
 
 	memcpy(bufferTx + 75,&bearing,sizeof(float));
 

@@ -17,6 +17,7 @@
 #include "gyroAccelerometer.h"
 #include "gestioneServo.h"
 #include "pin_raspberry.h"
+#include "panTiltServo.h"
 #include "debug.h"
 
 
@@ -26,6 +27,8 @@
 char bufCompass[COUNT_BYTE_I2C_COMPASS];
 char bufServo[COUNT_BYTE_I2C_SERVO];
 char bufGyro[COUNT_BYTE_I2C_GYRO];
+char bufPanTilt[COUNT_BYTE_I2C_PANTILT];
+
 //-----------------------------------------------------------------------------
 //	variabili estern
 //-----------------------------------------------------------------------------
@@ -33,9 +36,12 @@ extern int alreadyClose;
 extern int i2cHandleHMC5883l;
 extern int i2cHandle_pca6585;
 extern int i2cHandleMPU6050;
+extern int i2cHandle_pantilt;
+
 extern int errorServo;
 extern int errorGyro;
 extern int errorCompass;
+extern int errorPanTilt;
 //-----------------------------------------------------------------------------
 //	StartGestioneDeviceI2C
 //-----------------------------------------------------------------------------
@@ -67,13 +73,15 @@ void *gestioneDevicesI2C()
 	int returnFunz =0 ;
 
 
-	int FREQUENZA_LETTURA_GYRO = 0;
-	int FREQUENZA_LETTURA_COMPASS = 0;
-	int FREQUENZA_LETTURA_SERVO = 10;
+	int FREQUENZA_LETTURA_GYRO = 1;
+	int FREQUENZA_LETTURA_COMPASS = 5;
+//	int FREQUENZA_LETTURA_SERVO = 0;
+	int FREQUENZA_LETTURA_PANTILT = 10;
 
 	initI2C_GyroAccelerometer();
 	initI2C_Compass();
-	initI2C_Servo();
+	//initI2C_Servo();
+	initI2C_PanTiltServo();
 
 	while(1)
 	{
@@ -129,7 +137,7 @@ void *gestioneDevicesI2C()
 		//-----------------------------------------------------------------------------------
 
 		//-----------------------------------------------------------------------------------
-		if(FREQUENZA_LETTURA_SERVO)
+		/*if(FREQUENZA_LETTURA_SERVO)
 		{
 			if((countLettureI2C % FREQUENZA_LETTURA_SERVO) == 0)
 			{
@@ -144,6 +152,28 @@ void *gestioneDevicesI2C()
 				else
 				{
 					TRACE4(2,"SERVO",ROSSO,NERO_BG,"Errore Lettura SERVO",0);
+					errorServo++;
+				}
+			}
+		}*/
+		//-----------------------------------------------------------------------------------
+
+		//-----------------------------------------------------------------------------------
+		if(FREQUENZA_LETTURA_PANTILT)
+		{
+			if((countLettureI2C % FREQUENZA_LETTURA_PANTILT) == 0)
+			{
+				TRACE4(2,"PANTILT",BIANCO,NERO_BG,"Lettura PanTilt",0);
+				memset(bufPanTilt,0,COUNT_BYTE_I2C_PANTILT);
+				returnFunz = i2cReadI2CBlockData(i2cHandle_pantilt,START_REG_I2C_PANTILT,bufPanTilt,COUNT_BYTE_I2C_PANTILT);
+
+				if(returnFunz > 0)
+				{
+					elaboratePanTilt(bufPanTilt);
+				}
+				else
+				{
+					TRACE4(2,"PANTILT",ROSSO,NERO_BG,"Errore Lettura PANTILT",0);
 					errorServo++;
 				}
 			}
