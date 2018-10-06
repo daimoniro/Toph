@@ -24,7 +24,6 @@
 #define	HMC5883l_ADDR 			0x0d
 #define PI 3.14159265
 
-#define		I2C_BUS			"/dev/i2c-1"
 
 //--------------------------------------------------
 // variabili globali
@@ -169,8 +168,8 @@ void *gestioneCompass()
 float azimuth(short a, short b)
 {
   float azimuth = atan2((float)a,(float)b) * 180.0/PI;
-  //return azimuth < 0?360 + azimuth:azimuth;
-  return azimuth ;
+  return azimuth < 0?360 + azimuth:azimuth;
+  //return azimuth ;
 }
 
 //--------------------------------------------------

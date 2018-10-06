@@ -100,7 +100,7 @@ void getDistance(unsigned char idSonarSendor)
    double distance;
    long int count1 = 0;
    long int count2 = 0;
-   int MAX_COUNT_DISTANCE = 20000;
+   int MAX_COUNT_DISTANCE = 30000;
 
    unsigned char localTrig = 0 ;
    unsigned char localEcho = 0 ;

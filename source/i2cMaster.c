@@ -67,8 +67,8 @@ void *gestioneDevicesI2C()
 	int returnFunz =0 ;
 
 
-	int FREQUENZA_LETTURA_GYRO = 1;
-	int FREQUENZA_LETTURA_COMPASS = 5;
+	int FREQUENZA_LETTURA_GYRO = 0;
+	int FREQUENZA_LETTURA_COMPASS = 0;
 	int FREQUENZA_LETTURA_SERVO = 10;
 
 	initI2C_GyroAccelerometer();

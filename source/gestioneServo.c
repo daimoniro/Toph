@@ -108,7 +108,7 @@ void *gestioneServo()
 
 		if(probeByte < 0)
 		{
-			//printf("probeByte Gyro: %d\n",probeByte);
+			printf("probeByte Gyro: %d\n",probeByte);
 			errorServo++;
 			continue;
 		}
@@ -119,7 +119,7 @@ void *gestioneServo()
 		posServo1 = i2cReadWordData(i2cHandle_pca6585,LED0_ON_L+4*1 + 2); //leggo solo off dato chemetto on a 0
 
 		//printf("%d %d %d %d\n",i2cReadByteData(i2cHandle_pca6585,LED0_ON_L + 0),i2cReadByteData(i2cHandle_pca6585,LED0_ON_L+ 1),i2cReadByteData(i2cHandle_pca6585,LED0_ON_L+ 2),i2cReadByteData(i2cHandle_pca6585,LED0_ON_L + 3));
-	//	printf("posServo0: %d\n",posServo0);
+		printf("posServo0: %d\n",posServo0);
 
 		//loopPWMServo();
 	}
@@ -140,7 +140,9 @@ void pca6585_init()
 //--------------------------------------------------
 void PCA9685_reset(void)
 {
-  i2cWriteByteData(i2cHandle_pca6585, PCA9685_MODE1,0x80);
+  int returnFunz = i2cWriteByteData(i2cHandle_pca6585, PCA9685_MODE1,0x80);
+
+  printf("PCA9685_reset -> returnFunz: %d\n",returnFunz);
 
   usleep(10000);
 }
@@ -152,6 +154,7 @@ void PCA9685_setPWMFreq(float freq)
 {
 
   float prescaleval = 25000000;
+  int returnFunz = 0;
 
   freq *= 0.9;  // Correct for overshoot in the frequency setting (see issue #11).
 
@@ -164,11 +167,15 @@ void PCA9685_setPWMFreq(float freq)
   uint8_t oldmode = i2cReadByteData(i2cHandle_pca6585,PCA9685_MODE1);
   uint8_t newmode = (oldmode&0x7F) | 0x10; // sleep
 
-  i2cWriteByteData(i2cHandle_pca6585,PCA9685_MODE1, newmode); // go to sleep
-  i2cWriteByteData(i2cHandle_pca6585,PCA9685_PRESCALE, prescale); // set the prescaler
-  i2cWriteByteData(i2cHandle_pca6585,PCA9685_MODE1, oldmode);
+  returnFunz = i2cWriteByteData(i2cHandle_pca6585,PCA9685_MODE1, newmode); // go to sleep
+  printf("PCA9685_setPWMFreq -> returnFunz 1: %d\n",returnFunz);
+  returnFunz = i2cWriteByteData(i2cHandle_pca6585,PCA9685_PRESCALE, prescale); // set the prescaler
+  printf("PCA9685_setPWMFreq -> returnFunz 2: %d\n",returnFunz);
+  returnFunz = i2cWriteByteData(i2cHandle_pca6585,PCA9685_MODE1, oldmode);
+  printf("PCA9685_setPWMFreq -> returnFunz 3: %d\n",returnFunz);
   usleep(5000);
-  i2cWriteByteData(i2cHandle_pca6585,PCA9685_MODE1, oldmode | 0xa0);  //  This sets the MODE1 register to turn on auto increment.
+  returnFunz = i2cWriteByteData(i2cHandle_pca6585,PCA9685_MODE1, oldmode | 0xa0);  //  This sets the MODE1 register to turn on auto increment.
+  printf("PCA9685_setPWMFreq -> returnFunz 4: %d\n",returnFunz);
 
 }
 
