@@ -41,7 +41,11 @@ unsigned char light_on = 0;
 
 short posServoPantilt_1 = 0;
 short posServoPantilt_2 = 0;
+short oldPosServoPantilt_1 = 0;
+short oldPosServoPantilt_2 = 0;
 
+int errorPanTilt = 0;
+int countPanTilt = 0;
 //--------------------------------------------------
 // variabili extern
 //--------------------------------------------------
@@ -251,6 +255,10 @@ int panTilt_setServo(int index, int angle)
 	int us = 0;
 	int returnValue = 0;
 
+	enable_servo1 = 1;
+	enable_servo2 = 1;
+	panTilt_set_config();
+
 	switch(index)
 	{
 		case 0:
@@ -280,6 +288,24 @@ void elaboratePanTilt(char * buf)
 
 	posServoPantilt_1 =  panTilt_servo_us_to_degrees(us1,servo1_min,servo1_max);
 	posServoPantilt_2 =  panTilt_servo_us_to_degrees(us2,servo2_min,servo2_max);
+
+
+	if((oldPosServoPantilt_1 != posServoPantilt_1) || (oldPosServoPantilt_2 != posServoPantilt_2))
+	{
+		countPanTilt++;
+	}
+	else
+	{
+		countPanTilt = 0;
+	}
+
+
+	if(countPanTilt >= 2)
+	{
+		enable_servo1 = 0;
+		enable_servo2 = 0;
+		panTilt_set_config();
+	}
 
 
 }

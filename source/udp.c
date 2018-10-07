@@ -175,7 +175,7 @@ int udpOutcomingClientUDP(unsigned char *bufferOut,unsigned char lenght)
         servaddr.sin_zero[t]= 0;
    }
    servaddr.sin_family = AF_INET;
-   servaddr.sin_addr.s_addr=inet_addr("192.168.2.20");
+   servaddr.sin_addr.s_addr=inet_addr("192.168.1.10");
    servaddr.sin_port=htons(7001);
 
    //fcntl(sockfd, F_SETFL, O_NONBLOCK);

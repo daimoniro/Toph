@@ -34,7 +34,7 @@ char bufPanTilt[COUNT_BYTE_I2C_PANTILT];
 //-----------------------------------------------------------------------------
 extern int alreadyClose;
 extern int i2cHandleHMC5883l;
-extern int i2cHandle_pca6585;
+//extern int i2cHandle_pca6585;
 extern int i2cHandleMPU6050;
 extern int i2cHandle_pantilt;
 
@@ -174,7 +174,7 @@ void *gestioneDevicesI2C()
 				else
 				{
 					TRACE4(2,"PANTILT",ROSSO,NERO_BG,"Errore Lettura PANTILT",0);
-					errorServo++;
+					errorPanTilt++;
 				}
 			}
 		}

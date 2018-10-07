@@ -188,7 +188,7 @@ void getDistance(unsigned char idSonarSendor)
 	  sprintf(debugSTR,"Sensor #%d --> ERRORE",idSonarSendor);
 	   TRACE4(1,"SONAR",ROSSO,NERO_BG,debugSTR,0);
 
-		switch(idSonarSendor)
+		/*switch(idSonarSendor)
 		{
 			case 0:
 				distanceSonar_0 = -1;
@@ -201,7 +201,7 @@ void getDistance(unsigned char idSonarSendor)
 			case 2:
 				distanceSonar_2 = -1;
 				break;
-	   }
+	   }*/
   }
 
 }

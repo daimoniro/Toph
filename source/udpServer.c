@@ -224,7 +224,7 @@ void* UDPServer()
 					TRACE4(1,"SERVER",VERDE,NERO_BG,debugSTR,0);
 
 					panTilt_setServo(0,angle1);
-					panTilt_setServo(0,angle2);
+					panTilt_setServo(1,angle2);
 					break;
 
 

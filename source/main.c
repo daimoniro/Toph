@@ -85,8 +85,8 @@ int main(int argc, char **argv)
 
 	//StartGestioneGyroAccelerometer();
 	//StartGestioneCompass();
-	StartGestioneServo();
-	//StartGestioneDeviceI2C();
+	//StartGestioneServo();
+	StartGestioneDeviceI2C();
 
 
 	while(1)
