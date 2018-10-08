@@ -25,6 +25,7 @@
 #include "gestioneServo.h"
 #include "panTiltServo.h"
 #include "udpServer.h"
+#include "camera.h"
 
 #define BUFSIZE 64
 
@@ -36,6 +37,7 @@ unsigned char bufRx[256];
 //*****************************************************************************
 
 extern char debugSTR[];
+extern char ipUDPDestination[];
 
 void* UDPServer();
 
@@ -226,6 +228,27 @@ void* UDPServer()
 					panTilt_setServo(0,angle1);
 					panTilt_setServo(1,angle2);
 					break;
+
+				case OPEN_CAMERA_CONNECTION:
+
+					sprintf(debugSTR,"OPEN_CAMERA_CONNECTION");
+					TRACE4(1,"SERVER",VERDE,NERO_BG,debugSTR,0);
+
+					StartCameraConnection();
+
+					break;
+
+
+				case SET_UDPIPDESTINATION:
+
+
+					 sprintf(ipUDPDestination,"%d.%d.%d.%d",bufRx[3],bufRx[4],bufRx[5],bufRx[6]);
+
+					 sprintf(debugSTR,"SET_UDPIPDESTINATION --> %s",ipUDPDestination);
+					 TRACE4(1,"SERVER",VERDE,NERO_BG,debugSTR,0);
+
+					 break;
+
 
 
 				default:

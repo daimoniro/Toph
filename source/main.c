@@ -29,7 +29,7 @@
 #include "gestioneServo.h"
 #include "i2cMaster.h"
 #include "panTiltServo.h"
-
+#include "camera.h"
 //--------------------------------------------------
 // variabili globali
 //--------------------------------------------------
@@ -89,6 +89,9 @@ int main(int argc, char **argv)
 	StartGestioneDeviceI2C();
 
 
+	StartCameraConnection();
+
+
 	while(1)
 	{
 		sleep(2);
@@ -143,6 +146,8 @@ void closePigpioLybrary()
 
 	if(i2cHandle_pantilt > 0)
 	 i2cClose(i2cHandle_pantilt);
+
+	system("sudo killall raspistill");
 
 
 	sleep(1);

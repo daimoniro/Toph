@@ -15,6 +15,8 @@
 #define SET_SPEED_SERVO				5
 #define SET_PWM_FREQUENCY_SERVO		6
 #define	SET_PANTILT_SERVO			7
+#define	OPEN_CAMERA_CONNECTION		8
+#define	SET_UDPIPDESTINATION		9
 
 void StartUDPServerManagement();
 

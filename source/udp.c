@@ -33,6 +33,14 @@ int udpOutcomingClientUDP(unsigned char *bufferOut,unsigned char lenght);
 int sendMainValueUDP();
 
 
+
+
+//*****************************************************************************
+//	Variable globali
+//*****************************************************************************
+char ipUDPDestination[32];
+
+
 //*****************************************************************************
 //	Extern Variable
 //*****************************************************************************
@@ -86,6 +94,9 @@ void StartUDPClientManagement()
 //-----------------------------------------------------------------------------
 void *UDPServerManagement(void *threadid)
 {
+
+	sprintf(ipUDPDestination,"192.168.2.20");
+
 
 	while(1)
 	{
@@ -175,7 +186,7 @@ int udpOutcomingClientUDP(unsigned char *bufferOut,unsigned char lenght)
         servaddr.sin_zero[t]= 0;
    }
    servaddr.sin_family = AF_INET;
-   servaddr.sin_addr.s_addr=inet_addr("192.168.1.10");
+   servaddr.sin_addr.s_addr=inet_addr(ipUDPDestination);
    servaddr.sin_port=htons(7001);
 
    //fcntl(sockfd, F_SETFL, O_NONBLOCK);
