@@ -47,7 +47,7 @@ void* cameraConnection()
 	sprintf(debugSTR,"Prima di raspistill");
 	TRACE4(1,"CAMERA",BIANCO,NERO_BG,debugSTR,0);
 
-	system("/usr/bin/raspistill ...");
+	system("sudo /usr/bin/raspistill -fps 20 -hf -vf -w 640 -h 480 -t 0 -l -o tcp://0.0.0.0:2222");
 
 
 	sprintf(debugSTR,"Dopo raspistill");
