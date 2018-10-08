@@ -96,6 +96,9 @@ void panTilt_setup()
 
 	is_setup = 1;
 
+	panTilt_setServo(0,0);
+	panTilt_setServo(1,0);
+
 }
 
 //--------------------------------------------------

@@ -56,9 +56,13 @@ int main(int argc, char **argv)
 
 	printf("\033[H\033[2J");
 
-	printf("---------------------------------\n");
-	printf("---------  Toph  ver: %s ------\n",VERSION);
-	printf("---------------------------------\n\n");
+	//printf("---------------------------------\n");
+	//printf("---------  Toph  ver: %s ------\n",VERSION);
+	//printf("---------------------------------\n\n");
+
+	TRACE4(1,"MAIN",BIANCO,NERO_BG,"----------------------------------",0);
+	TRACE4(1,"MAIN",BIANCO,NERO_BG,"--------------  Toph  ------------",0);
+	TRACE4(1,"MAIN",BIANCO,NERO_BG,"----------------------------------",0);
 
 	if (gpioInitialise() < 0)
 	{

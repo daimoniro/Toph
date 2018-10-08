@@ -44,13 +44,13 @@ void StartCameraConnection()
 void* cameraConnection()
 {
 
-	sprintf(debugSTR,"Prima di raspistill");
+	sprintf(debugSTR,"Prima di raspivid");
 	TRACE4(1,"CAMERA",BIANCO,NERO_BG,debugSTR,0);
 
-	system("sudo /usr/bin/raspistill -fps 20 -hf -vf -w 640 -h 480 -t 0 -l -o tcp://0.0.0.0:2222");
+	system("sudo /usr/bin/raspivid -fps 20 -hf -vf -w 640 -h 480 -t 0 -l -o tcp://0.0.0.0:2222");
 
 
-	sprintf(debugSTR,"Dopo raspistill");
+	sprintf(debugSTR,"Dopo raspivid");
 	TRACE4(1,"CAMERA",BIANCO,NERO_BG,debugSTR,0);
 
 	return NULL;
