@@ -17,6 +17,7 @@
 #define	SET_PANTILT_SERVO			7
 #define	OPEN_CAMERA_CONNECTION		8
 #define	SET_UDPIPDESTINATION		9
+#define	SET_CORR_VELDC_0			10
 
 void StartUDPServerManagement();
 

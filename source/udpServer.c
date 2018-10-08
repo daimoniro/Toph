@@ -38,6 +38,7 @@ unsigned char bufRx[256];
 
 extern char debugSTR[];
 extern char ipUDPDestination[];
+extern char correzioneVelMotoreDC_0;
 
 void* UDPServer();
 
@@ -248,6 +249,14 @@ void* UDPServer()
 					 TRACE4(1,"SERVER",VERDE,NERO_BG,debugSTR,0);
 
 					 break;
+
+
+				case SET_CORR_VELDC_0:
+					correzioneVelMotoreDC_0 = (char)bufRx[3];
+
+					sprintf(debugSTR,"SET_CORR_VELDC_0 --> %d",correzioneVelMotoreDC_0);
+					TRACE4(1,"SERVER",VERDE,NERO_BG,debugSTR,0);
+					break;
 
 
 
