@@ -28,7 +28,7 @@ void *gestioneMotoriDC();
 int velMotoreDC_0 = 0;
 int velMotoreDC_1 = 0;
 
-char correzioneVelMotoreDC_0= 0;
+int correzioneVelMotoreDC_0= 4;
 
 
 //-----------------------------------------------------------------------------
@@ -122,7 +122,11 @@ void setSpeedMotorDC(unsigned char vel_0, unsigned char dir_0,unsigned char vel_
 	sprintf(debugSTR,"Motori DC -->  vel_0: %d (dir: %d)  vel_1: %d (dir: %d) correzioneVelMotoreDC_0: %d", vel_0,dir_0,vel_1,dir_1,correzioneVelMotoreDC_0);
 	TRACE4(1,"DC",BIANCO,NERO_BG,debugSTR,0);
 
-	vel_0 = vel_0 + correzioneVelMotoreDC_0;
+	vel_1 = vel_1 - correzioneVelMotoreDC_0;
+
+	if(vel_1 > 200)
+		vel_1 = 0;
+
 	gpioPWM(PIN_MOTOR_0_PWM, vel_0);
 
 	if(dir_0 == 1)
